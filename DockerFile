@@ -1,14 +1,12 @@
 # Usa una imagen base de Java
-FROM openjdk:17-jdk-slim
+FROM maven:3.8.5-openjdk-17 AS build
+COPY  . .
 
-# Define el directorio de trabajo
-WORKDIR /app
+RUN maven clean package -DskipTests
 
-# Copia el archivo .jar a la imagen
-COPY target/your-app-name.jar app.jar
+FROM openjdk:17.0.1-jdk-slim
+COPY --from=build /target/backend-0.0.1-SNAPSHOT.jar /backend.jar
 
-# Expone el puerto donde tu aplicación estará corriendo
 EXPOSE 8080
 
-# Comando para ejecutar el archivo .jar
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "backend.jar"]
