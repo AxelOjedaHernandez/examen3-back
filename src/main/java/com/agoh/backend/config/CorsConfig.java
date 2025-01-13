@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Permite todos los endpoints
-                        .allowedOrigins("http://localhost:8080", "http://localhost:4200")
+                        .allowedOrigins("http://localhost:8080", "http://localhost:4200", "https://examen3-front.vercel.app/login")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);
