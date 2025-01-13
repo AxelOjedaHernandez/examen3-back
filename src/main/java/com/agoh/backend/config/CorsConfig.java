@@ -14,11 +14,12 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Permite todos los endpoints
-                        .allowedOrigins("http://localhost:8080", "http://localhost:4200", "https://examen3-front.vercel.app/login")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowedOrigins("*") // Permite todos los orígenes
+                        .allowedMethods("*") // Permite todos los métodos HTTP
+                        .allowedHeaders("*") // Permite todos los headers
+                        .allowCredentials(false); // No permite enviar credenciales
             }
         };
     }
 }
+

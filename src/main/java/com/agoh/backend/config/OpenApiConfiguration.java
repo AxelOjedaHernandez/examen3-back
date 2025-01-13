@@ -26,7 +26,10 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
     termsOfService = "Solo se permite el uso de la API para fines educativos"), 
     servers = { 
         @Server(description = "Servidor de pruebas", 
-        url = "http://localhost:8080")
+        url = "http://localhost:8080"),
+        @Server(
+            description = "Servidor de Produccion",
+            url = "https://examen3-back.onrender.com")
     }, 
     tags = {
         @Tag(name = "Promotion", 
