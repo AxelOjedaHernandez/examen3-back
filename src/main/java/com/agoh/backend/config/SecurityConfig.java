@@ -24,28 +24,33 @@ import com.agoh.backend.services.UserDetailServiceImpl;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults()) // Habilitar CORS
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // Configurar los endpoints públicos
-                    http.requestMatchers(
+public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults()) // Habilitar CORS desde CorsConfig
+            .httpBasic(Customizer.withDefaults())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(http -> {
+                // Configurar los endpoints públicos
+                http.requestMatchers(
                         "/swagger-ui/**", "/v3/api-docs/**", "/api/auth/login").permitAll();
-                    // Configurar los endpoints privados
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/promotion/listar").hasAuthority("READ");
-                    http.requestMatchers(HttpMethod.GET, "/api/v1/promotion/listar/{id}").hasAuthority("READ");
-                    http.requestMatchers(HttpMethod.POST, "/api/v1/promotion/crear").hasAuthority("CREATE");
-                    http.requestMatchers(HttpMethod.PUT, "/api/v1/promotion/actualizar/{id}").hasAuthority("UPDATE");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/promotion/eliminar/{id}").hasAuthority("DELETE");
+                
+                // Permitir solicitudes OPTIONS para preflight requests
+                http.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
-                    // Configurar el resto de endpoints - Requiere autenticación
-                    http.anyRequest().authenticated();
-                })
-                .build();
-    }
+                // Configurar los endpoints privados
+                http.requestMatchers(HttpMethod.GET, "/api/v1/promotion/listar").hasAuthority("READ");
+                http.requestMatchers(HttpMethod.GET, "/api/v1/promotion/listar/{id}").hasAuthority("READ");
+                http.requestMatchers(HttpMethod.POST, "/api/v1/promotion/crear").hasAuthority("CREATE");
+                http.requestMatchers(HttpMethod.PUT, "/api/v1/promotion/actualizar/{id}").hasAuthority("UPDATE");
+                http.requestMatchers(HttpMethod.DELETE, "/api/v1/promotion/eliminar/{id}").hasAuthority("DELETE");
+
+                // Configurar el resto de endpoints - Requiere autenticación
+                http.anyRequest().authenticated();
+            })
+            .build();
+}
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)

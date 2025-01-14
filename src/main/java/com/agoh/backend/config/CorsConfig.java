@@ -14,12 +14,13 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Permite todos los endpoints
-                        .allowedOrigins("https://examen3-front-2ycd2vt8t-axels-projects-8148f110.vercel.app") // Permite solo el dominio de la app de front
+                        .allowedOrigins("*") // Permite todas las URLs
                         .allowedMethods("*") // Permite todos los métodos HTTP
                         .allowedHeaders("*") // Permite todos los headers
-                        .allowCredentials(true); // permite enviar credenciales
+                        .allowCredentials(true); // Permite envío de credenciales
             }
         };
     }
 }
+
 
